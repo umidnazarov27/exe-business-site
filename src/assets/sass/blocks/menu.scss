@@ -1,0 +1,180 @@
+$text-color: #666;
+
+
+.menu {
+  display: flex;
+  list-style: none;
+  flex-wrap: wrap;
+
+  &__element {
+    margin-right: 40px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  &__link {
+    font-family: Raleway, sans-serif;
+    font-size: 12px;
+    line-height: 1.6;
+    text-transform: uppercase;
+    color: $text-color;
+    text-decoration: none;
+
+    &::before {
+      content: '';
+
+      display: block;
+      width: 8px;
+      height: 2px;
+      background-color: $second;
+    }
+
+    &:hover {
+      color: $second;
+
+      &::before {
+        animation: links__anim 0.3s both;
+      }
+    }
+
+    &:not(:hover) {
+      &::before {
+        animation: links__anim--reverse 0.2s both;
+      }
+    }
+  }
+
+  &__toggle {
+    width: 30px;
+    padding: 10px 0;
+    display: none;
+
+    font-size: 0;
+    color: transparent;
+
+    border: 0;
+    background: none;
+    cursor: pointer;
+
+    position: absolute;
+    top: 35px;
+    right: 25px;
+    z-index: 1;
+
+    &:focus {
+      outline: 0;
+    }
+
+    &.active .toggle__item {
+      background: none;
+    }
+
+    &.active .toggle__item:before {
+      transform-origin: left top;
+      transform: rotate(45deg) translateY(-2px);
+    }
+
+    &.active .toggle__item:after {
+      transform-origin: left bottom;
+      transform: rotate(-45deg) translateY(3px);
+    }
+  }
+}
+
+.toggle__item {
+  display: block;
+  width: 100%;
+  height: 3px;
+
+  background-color: #fff;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+
+  transition: background 0.2s linear;
+
+  &::before,
+  &::after {
+    content: "";
+    width: 100%;
+    height: 3px;
+
+    position: absolute;
+    left: 0;
+    z-index: 1;
+
+    background-color: #fff;
+
+    transition: transform 0.2s linear;
+  }
+
+  &:before {
+    top: -8px;
+  }
+
+  &:after {
+    bottom: -8px;
+  }
+}
+
+
+@keyframes links__anim {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 15px;
+  }
+}
+
+@keyframes links__anim--reverse {
+  0% {
+    width: 15px;
+  }
+  100% {
+    width: 0;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .menu {
+
+    &__element {
+      margin-right: 25px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+@media (max-width: 530px) {
+  .menu {
+    display: none;
+    width: 100%;
+
+    &__toggle {
+      display: block;
+    }
+
+    &.active {
+      display: block;
+    }
+
+    &__link {
+      display: block;
+      margin: 30px 0;
+
+      font-size: 18px;
+
+    }
+  }
+}

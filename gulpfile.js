@@ -30,7 +30,7 @@ let path = {
     html: 'src/*.html',
     js: 'src/assets/js/*.js',
     css: 'src/assets/sass/style.scss',
-    img: 'src/assets/img/**/*.{jpg, png, svg, gif, ico}'
+    img: 'src/assets/img/*'
   },
   watch: {
     html: 'src/**/*.html',
