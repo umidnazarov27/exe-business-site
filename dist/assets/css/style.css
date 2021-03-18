@@ -388,16 +388,21 @@ body {
   margin: 0;
 }
 
+.header .active {
+  height: calc(100vh - 134px);
+}
+
 @media (max-width: 768px) {
   .header__wrap {
     flex-direction: column;
     justify-content: flex-start;
-    padding-top: 25px;
-    padding-bottom: 25px;
+    padding-top: 20px;
+    padding-bottom: 20px;
   }
 
   .header__logo {
     margin-right: 0;
+    margin-bottom: 15px;
   }
 }
 
@@ -488,7 +493,6 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
   margin: auto;
   transition: background 0.2s linear;
 }

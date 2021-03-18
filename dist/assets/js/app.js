@@ -11,4 +11,5 @@ function navToggle() {
   $('#toggle').toggleClass('active');
   // Переключать класс active у меню
   $('#nav').toggleClass('active');
+  $('#header').toggleClass('active');
 }
