@@ -1,0 +1,9 @@
+.advantages {
+  &__title {
+    @include visually-hidden;
+  }
+
+  &__list {
+    list-style: none;
+  }
+}

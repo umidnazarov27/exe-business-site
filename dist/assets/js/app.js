@@ -1,15 +1,19 @@
-$('#toggle').on('click', function (event) {
-  // Отменять действие по умолчанию
-  event.preventDefault();
+const toggle = document.querySelector('#toggle'),
+  nav = document.querySelector('#nav'),
+  header = document.querySelector('#header');
 
-  // Переключать бургер
-  navToggle();
+toggle.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  toggleClass(toggle);
+  toggleClass(nav);
+  toggleClass(header);
 });
 
-function navToggle() {
-  // Переключать класс active у бургера
-  $('#toggle').toggleClass('active');
-  // Переключать класс active у меню
-  $('#nav').toggleClass('active');
-  $('#header').toggleClass('active');
+function toggleClass(param) {
+  if (param.classList.contains('active')) {
+    param.classList.remove('active');
+  } else {
+    param.classList.add('active');
+  }
 }
