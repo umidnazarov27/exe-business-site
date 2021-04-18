@@ -736,4 +736,15 @@ body {
 
 .advantages__list {
   list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, auto));
+  grid-column-gap: 30px;
+}
+
+.advantages__item {
+  margin: 15px 0;
+}
+
+.advantages__svg {
+  color: #ba2719;
 }

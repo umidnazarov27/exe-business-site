@@ -4,6 +4,7 @@
 const { src, dest } = require('gulp');
 const gulp = require('gulp');
 
+const plugins = require('gulp-load-plugins')();
 const browserSync = require('browser-sync').create();
 const del = require('del');
 const autoprefixer = require('gulp-autoprefixer');
@@ -17,6 +18,10 @@ const sass = require('gulp-sass');
 const stripCssComments = require('gulp-strip-css-comments');
 const uglify = require('gulp-uglify');
 const panini = require('panini');
+const svgSprite = require('gulp-svg-sprite');
+const svgMin = require('gulp-svgmin');
+const cheerio = require('gulp-cheerio');
+const replace = require('gulp-replace');
 
 /* Paths */
 let path = {
@@ -24,19 +29,22 @@ let path = {
     html: 'dist/',
     js: 'dist/assets/js',
     css: 'dist/assets/css',
-    img: 'dist/assets/img'
+    img: 'dist/assets/img',
+    svg: 'src/assets/img/**/*.svg'
   },
   src: {
     html: 'src/*.html',
     js: 'src/assets/js/*.js',
     css: 'src/assets/sass/style.scss',
-    img: 'src/assets/img/*'
+    img: 'src/assets/img/*',
+    svg: 'src/assets/img/**/*.svg'
   },
   watch: {
     html: 'src/**/*.html',
     js: 'src/assets/js/**/*.js',
     css: 'src/assets/sass/**/*.scss',
-    img: 'src/assets/img/**/*.{jpg, png, svg, gif, ico}'
+    img: 'src/assets/img/**/*.{jpg, png, gif, ico}',
+    svg: 'src/assets/img/**/*.svg'
   },
   clean: './dist'
 };
@@ -110,6 +118,32 @@ function images() {
     .pipe(dest(path.build.img));
 }
 
+function svg() {
+  return src(path.src.svg)
+    .pipe(svgMin({
+      js2svg: {
+        pretty: true
+      }
+    }))
+    .pipe(cheerio({
+      run: function ($) {
+        $('[fill]').removeAttr('fill');
+        $('[stroke]').removeAttr('stroke');
+        $('[style]').removeAttr('style');
+      },
+      parserOptions: { xmlMode: true }
+    }))
+    .pipe(replace('&gt;', '>'))
+    .pipe(svgSprite({
+      mode: {
+        symbol: {
+          sprite: 'sprite.svg'
+        }
+      }
+    }))
+    .pipe(dest(path.build.img));
+}
+
 function clean() {
   return del(path.clean);
 }
@@ -119,6 +153,7 @@ function watchFiles() {
   gulp.watch([path.watch.css], css);
   gulp.watch([path.watch.js], js);
   gulp.watch([path.watch.img], images);
+  gulp.watch([path.watch.svg], svg());
 }
 
 const build = gulp.series(clean, gulp.parallel(html, css, js, images));
@@ -129,6 +164,7 @@ const watch = gulp.parallel(build, watchFiles, BrowserSync);
 exports.html = html;
 exports.css = css;
 exports.js = js;
+exports.svg = svg;
 exports.images = images;
 exports.clean = clean;
 exports.build = build;

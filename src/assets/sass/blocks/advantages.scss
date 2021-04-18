@@ -5,5 +5,16 @@
 
   &__list {
     list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, auto));
+    grid-column-gap: 30px;
+  }
+
+  &__item {
+    margin: 15px 0;
+  }
+
+  &__svg {
+    color: #ba2719;
   }
 }
