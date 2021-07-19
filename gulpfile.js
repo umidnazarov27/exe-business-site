@@ -4,7 +4,6 @@
 const { src, dest } = require('gulp');
 const gulp = require('gulp');
 
-const plugins = require('gulp-load-plugins')();
 const browserSync = require('browser-sync').create();
 const del = require('del');
 const autoprefixer = require('gulp-autoprefixer');
@@ -17,11 +16,8 @@ const rigger = require('gulp-rigger');
 const sass = require('gulp-sass');
 const stripCssComments = require('gulp-strip-css-comments');
 const uglify = require('gulp-uglify');
-const panini = require('panini');
 const svgSprite = require('gulp-svg-sprite');
 const svgMin = require('gulp-svgmin');
-const cheerio = require('gulp-cheerio');
-const replace = require('gulp-replace');
 
 /* Paths */
 let path = {
@@ -65,7 +61,6 @@ function BrowserSyncReload(done) {
 
 
 function html() {
-  panini.refresh();
   return src(path.src.html, { base: 'src/' })
     .pipe(plumber())
     .pipe(dest(path.build.html))
@@ -125,15 +120,6 @@ function svg() {
         pretty: true
       }
     }))
-    .pipe(cheerio({
-      run: function ($) {
-        $('[fill]').removeAttr('fill');
-        $('[stroke]').removeAttr('stroke');
-        $('[style]').removeAttr('style');
-      },
-      parserOptions: { xmlMode: true }
-    }))
-    .pipe(replace('&gt;', '>'))
     .pipe(svgSprite({
       mode: {
         symbol: {
